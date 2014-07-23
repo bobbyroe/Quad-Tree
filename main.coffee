@@ -39,7 +39,7 @@ do ->
 
         # Update the FPS timer.
         fps_timer.update elapsed_time
-        fps_el.textContent = fps_timer.average_FPS
+        fps_el.textContent = "#{fps_timer.average_FPS} fps"
 
     points = []
     class Point

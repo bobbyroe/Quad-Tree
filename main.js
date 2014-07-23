@@ -35,7 +35,7 @@
     elapsed_time = now - past_now;
     past_now = now;
     fps_timer.update(elapsed_time);
-    return fps_el.textContent = fps_timer.average_FPS;
+    return fps_el.textContent = "" + fps_timer.average_FPS + " fps";
   };
   points = [];
   Point = (function() {
