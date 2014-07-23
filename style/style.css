@@ -1,0 +1,80 @@
+/*---------------------------------------------------
+ * SASS Elements  
+ * ---------------------------------------------------
+ * Based on A set of useful LESS mixins
+ * More info at: http://lesselements.com
+ * --------------------------------------------------- */
+body {
+  margin: 1px 0 0 0;
+  background-color: #222222;
+  font-family: "Helvetica";
+  font-weight: lighter; }
+
+* {
+  -ms-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+#fps {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #e0e0e0; }
+
+#title {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-weight: bold;
+  font-size: 48px; }
+
+a {
+  color: gray;
+  text-decoration: none; }
+  a:hover {
+    color: #00ccf0; }
+
+#info {
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  position: absolute;
+  padding: 20px;
+  top: 0px;
+  width: 300px;
+  height: 100%;
+  background-color: black;
+  color: #a0a0a0; }
+  #info h4 {
+    color: #e0e0e0;
+    font-weight: normal; }
+  #info.closed {
+    left: -300px; }
+  #info.open {
+    left: 0px; }
+
+#nub {
+  position: absolute;
+  padding: 15px 10px 10px;
+  right: -50px;
+  top: 10px;
+  width: 50px;
+  height: 50px;
+  background-color: #606060;
+  cursor: pointer; }
+  #nub:hover {
+    background-color: #404040;
+    color: #00ccff; }
+
+#main {
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+  position: absolute; }
+  #main.home {
+    left: 0; }
+  #main.scooched_right {
+    left: 300px; }

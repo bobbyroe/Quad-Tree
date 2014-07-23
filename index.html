@@ -3,39 +3,24 @@
 <head>
 	<meta charset='UTF-8'/>
 	<title>:D</title> 
-	<style type="text/css">
-		body {
-			margin: 1px 0 0 0;
-			background-color: #222;
-			font-family: 'Helvetica';
-			font-weight: lighter;
-		}
-		#fps { 
-			position: absolute;
-			top: 10px;
-			right: 10px;
-			color: #e0e0e0;
-
-		}
-		#title {
-			position: absolute;
-			bottom: 10px;
-			left: 10px;
-			font-weight: bold;
-			font-size: 48px;
-		}
-		a {
-			color: #808080;
-			text-decoration: none;
-		}
-		a:hover {
-			color: #00cCF0;
-		}
-	</style> 
+	<link rel="stylesheet" href="style/style.css">
+	
 </head>
 <body>
-	<canvas id="main"></canvas>
+	<canvas id="main" class="home"></canvas>
+	<div id="info" class="closed">
+		<h4>How do you speed up a simulation with thousands of particles?</h4>
+		<br>
+		Each box if shaded acording to the number of points it contains.<br>
+		<br>
+		and Each point is colored based on it's velocity.<br>
+		<br>
+		move the mouse around to highlight 'local' points<br>
+		<br>
+		<a href="http://en.wikipedia.org/wiki/Quadtree" target="_blank">wikipedia</a>
+		<div id="nub">info</div>
+	</div>
 	<div id="fps">xxx</div>
-	<div id="title"><a href="">QUADTREE</a></div>
+	<div id="title"><a href="https://github.com/bobbyroe/Quadtree">QUADTREE</a></div>
 	<script src="main.js"></script>
 </html>

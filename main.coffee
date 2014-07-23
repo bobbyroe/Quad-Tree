@@ -1,12 +1,14 @@
 do ->
 
     log = console.log.bind console
-    canvas = document.getElementById 'main'
+    d = document
+    canvas = d.getElementById 'main'
+    info_panel = d.getElementById 'info'
     ctx = canvas.getContext '2d'
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight - 2
 
-    pre_canvas = document.createElement 'canvas'
+    pre_canvas = d.createElement 'canvas'
     pre_canvas.width = canvas.width
     pre_canvas.height = canvas.height
     pre_ctx = pre_canvas.getContext '2d'
@@ -16,10 +18,12 @@ do ->
     pre_ctx.fillStyle = "#445544"
     colors = ['red', 'green', 'blue', 'yellow'] # , 'orange', 'purple']
     fill_colors = ['#000000', '#111111', '#202020', '#333333','#404040', '#555555', '#606060', '#777777', '#888888', '#999999', '#a0a0a0', '#bbbbbb', '#c0c0c0', '#dddddd', '#e0e0e0', '#FFFFFF']
-    drag = 1 - 0.001
+    drag = 1 - 0.002
     mouse = 
         x: 0
         y: 0
+
+    is_highlighing_points = true
 
     addNewPoint = ->
         p = new Point()
@@ -29,7 +33,7 @@ do ->
     getNodeForPoint = (x, y) ->
 
     past_now = (new Date()).getTime() * 0.001
-    fps_el = document.getElementById 'fps'
+    fps_el = d.getElementById 'fps'
     update_fps = ->
         # Compute the elapsed time since the last rendered frame
         # in seconds.
@@ -50,7 +54,7 @@ do ->
             @vel =
                 x: Math.random() * 4 - 2
                 y: Math.random() * 4 - 2
-            # @color = 'red' # colors[Math.floor(Math.random() * colors.length)]
+            @color = 'cyan' # colors[Math.floor(Math.random() * colors.length)]
             @size = 5 # Math.floor Math.random() * 7 + 3
             @drag = drag
             @ctx = pre_ctx
@@ -67,7 +71,8 @@ do ->
             if @y < 0 or @y > canvas.height - @size then @vel.y *= -1
 
         draw: ->
-            # @ctx.fillStyle = @color
+            mag = @vel.x * @vel.x + @vel.y * @vel.y # Math.sqrt 
+            @ctx.fillStyle = "hsl(#{(mag) * 60 + 210}, 100%, 50%"# @color
             @ctx.fillRect @x, @y, @size, @size
 
         highlight: ->
@@ -92,11 +97,11 @@ do ->
         draw: ->
             @ctx.strokeStyle = @color # if is_moused then 'red' else @color
             @obj_color = @objs.length * @mult
-            # @ctx.fillStyle = if @objs.length < @max_objs + 1 then "rgb(#{Math.floor(@obj_color)}, 0, 0)" else '#00FF00'
-            @ctx.beginPath()
-            @ctx.rect @x, @y, @width, @height
-            # @ctx.fillRect @x, @y, @width, @height
-            @ctx.stroke()
+            @ctx.fillStyle = if @objs.length < @max_objs + 1 then "rgba(#{Math.floor(@obj_color)}, #{Math.floor(@obj_color)}, #{Math.floor(@obj_color)}, 0.2)" else '#FFFFFF'
+            # @ctx.beginPath()
+            # @ctx.rect @x, @y, @width, @height
+            @ctx.fillRect @x, @y, @width, @height
+            # @ctx.stroke()
 
             for node in @sub_nodes
                 node.draw()
@@ -211,9 +216,11 @@ do ->
             p.update()
             quad_tree.add p
             p.draw()
-        # hot_points = quad_tree.getNearbyObjs mouse
-        # for point in hot_points
-        #     point.highlight()
+
+        if is_highlighing_points is true
+            hot_points = quad_tree.getNearbyObjs mouse
+            for point in hot_points
+                point.highlight()
 
         quad_tree.draw()
         ctx.drawImage pre_canvas, 0, 0
@@ -221,17 +228,44 @@ do ->
     
     renderFrame()
 
+    showInfoPanel = ->
+        canvas.classList.add 'scooched_right'
+        info_panel.classList.add 'open'
+        is_highlighing_points = false
+
+    hideInfoPanel = ->
+        canvas.classList.remove 'scooched_right'
+        info_panel.classList.remove 'open'
+        is_highlighing_points = true
+
+    toggleInfoPanel = ->
+        if info_panel.classList.contains 'open'
+            hideInfoPanel()
+        else 
+            showInfoPanel()
+
     keyDowned = (evt) ->
         SPACE = 32
         key_pressed = evt.keyCode
         if key_pressed is SPACE then addNewPoint()
 
-    docClicked = (evt) ->
-        node = getNodeForPoint evt.clientX, evt.clientY
+    # docClicked = (evt) ->
+    #     node = getNodeForPoint evt.clientX, evt.clientY
     mouseMoved = (evt) ->
         mouse = 
             x: evt.clientX
             y: evt.clientY
 
-    document.addEventListener 'keydown', keyDowned
-    document.addEventListener 'mousemove', mouseMoved
+    clicked = (evt) ->
+        if evt.target.id is 'nub'
+            toggleInfoPanel();
+        if evt.target.id is 'main'
+            hideInfoPanel();
+
+    mousedOver = (evt) ->
+        # log log evt.target.id
+
+    d.addEventListener 'keydown', keyDowned
+    d.addEventListener 'mousemove', mouseMoved
+    d.addEventListener 'click', clicked
+    d.addEventListener 'mouseover', mousedOver
